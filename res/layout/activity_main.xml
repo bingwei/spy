@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:background="@color/white" >
+	
+    <TextView
+        android:id="@+id/debug_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/black" />
+
+	<LinearLayout
+	    android:background="@drawable/border"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+    	android:layout_marginLeft="5dp"
+    	android:layout_marginRight="5dp"
+    	android:layout_marginTop="5dp"
+	    android:orientation="horizontal" >
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/spy_num"
+	        android:textColor="@color/black"
+	        android:layout_weight="1" />
+	    <Spinner
+	        android:id="@+id/sp_spy_num"
+	        android:prompt="@string/i1"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp" 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1" />
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:background="@drawable/border"
+    	android:layout_marginLeft="5dp"
+    	android:layout_marginRight="5dp"
+    	android:layout_marginTop="5dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+	    <TextView
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/multi_facial_num"
+	        android:textColor="@color/black"
+	        android:layout_weight="1" />
+	    <Spinner
+	        android:id="@+id/sp_mf_num"
+	        android:prompt="@string/i0"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp" 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1" />
+	</LinearLayout>
+	
+
+	
+</LinearLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string-array name="spies_array">
+        <item>@string/i0</item>
+        <item>@string/i1</item>
+        <item>@string/i2</item>
+        <item>@string/i3</item>
+        <item>@string/i4</item>
+        <item>@string/i5</item>
+        <item>@string/i6</item>
+        <item>@string/i7</item>
+    </string-array>
+</resources>
