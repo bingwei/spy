@@ -60,6 +60,72 @@
 	        android:layout_weight="1" />
 	</LinearLayout>
 	
+	<ScrollView
+   	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	<LinearLayout
+	    android:background="@drawable/border"
+    	android:layout_marginLeft="5dp"
+    	android:layout_marginRight="5dp"
+    	android:layout_marginTop="5dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+		    <TextView
+		        android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+		        android:text="Major Name:"
+		        android:textColor="@color/black"
+		        />
+		    <EditText 
+		        android:layout_width="200dp"
+	        	android:layout_height="wrap_content"
+		        android:inputType="text"
+		        android:id="@+id/major_name"/>
+		</LinearLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+		    <TextView
+     		    android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+		        android:text="Spy Name:"
+		        android:textColor="@color/black"
+		        />
+		    <EditText 
+		        android:layout_width="200dp"
+	        	android:layout_height="wrap_content"
+		        android:inputType="text"
+		        android:id="@+id/spy_name"/>
+		</LinearLayout>
+		<Button
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+		    android:id="@+id/add_couple"
+		    android:text="Add couple"/>
+		<EditText 
+	        android:layout_width="50dp"
+        	android:layout_height="wrap_content"
+			android:inputType="numberDecimal"
+	        android:id="@+id/couple_id"/>
+		<Button
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+		    android:id="@+id/show_couple"
+		    android:text="Show couple"/>
+		<Button
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+		    android:id="@+id/remove_couple"
+		    android:text="Remove couple"/>
+	</LinearLayout>
+	</ScrollView>
 
 	
 </LinearLayout>
