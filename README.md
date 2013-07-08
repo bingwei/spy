@@ -10,6 +10,9 @@ Create "who is spy" game to know how to use:
 1. Basic functionality
 1.1 all layout
 1.2 data storage
+1.2.1 get random data
+1.2.2 import sqlite data
+1.2.3 generate sqlite data
 1.3 list view for players
 1.4 add label for spies
 2. Add Chinese L10n
