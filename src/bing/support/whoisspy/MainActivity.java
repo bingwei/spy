@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,11 +14,14 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import bing.support.whoisspy.model.Couple;
 
-public class MainActivity extends Activity implements OnItemSelectedListener, OnClickListener{
+public class MainActivity extends Activity implements OnItemSelectedListener,
+		OnClickListener, OnSeekBarChangeListener{
 	
 	//only for debug
 	private TextView debug_text = null;
@@ -31,6 +36,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	
 	private Spinner sp_spy_num = null;
 	private Spinner sp_mf_num = null;
+	private EditText all_player_num = null;
+	private SeekBar all_player_seeker = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
     	
     	sp_spy_num = (Spinner)findViewById(R.id.sp_spy_num);
     	sp_mf_num = (Spinner)findViewById(R.id.sp_mf_num);
+    	all_player_num = (EditText)findViewById(R.id.all_player_num);
+    	all_player_seeker = (SeekBar)findViewById(R.id.all_player_seeker);
     	
     	ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
     	        R.array.spies_array, android.R.layout.simple_spinner_dropdown_item);
@@ -66,10 +75,23 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
     	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	// Apply the adapter to the spinner
     	sp_spy_num.setAdapter(adapter);
+    	sp_spy_num.setSelection(1);
     	sp_mf_num.setAdapter(adapter);
     	
     	sp_spy_num.setOnItemSelectedListener(this);
     	sp_mf_num.setOnItemSelectedListener(this);
+    	all_player_seeker.setOnSeekBarChangeListener(this);
+    	all_player_num.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            	if(!s.toString().isEmpty()){
+            		all_player_seeker.setProgress(Integer.valueOf(s.toString()));
+            		all_player_num.setSelection(s.toString().length());
+            	}
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+         });
     	
     }
 
@@ -95,14 +117,14 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
     	default:
     		break;
     	}
-    	debug_text.setText(String.format("%s: %s; view id: %d, id: %d; sp_spy_num: %d, sp_mf_num: %d",
-    			prefix, (String)parent.getItemAtPosition(pos), view.getId(), id, R.id.sp_spy_num, R.id.sp_mf_num));
+    	if(parent !=null){
+    		debug_text.setText(String.format("%s: %s; view id: %d, id: %d; sp_spy_num: %d, sp_mf_num: %d",
+    				prefix, (String)parent.getItemAtPosition(pos), view.getId(), id, R.id.sp_spy_num, R.id.sp_mf_num));
+    	}
     }
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -149,6 +171,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
     	debug_text.setText(content);
 		
 	}
+
+	@Override
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+		all_player_num.setText(String.valueOf(progress));
+	}
+
+	@Override
+	public void onStartTrackingTouch(SeekBar arg0) {
+	}
+
+	@Override
+	public void onStopTrackingTouch(SeekBar arg0) {
+	}
+
 
     
 }

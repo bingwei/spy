@@ -11,9 +11,10 @@ public class Couple {
     private Long id = null;
     private String majorName = null;
     private String spyName = null;
+    private boolean isUsed = false;
     private static DAOFactory daoFactory = DAOFactory.getInstance();
 
-    public Couple(String majorName, String spyName) {
+    public Couple(String majorName, String spyName, boolean isUsed) {
         if (majorName == null) {
             throw new IllegalArgumentException("Major name must not be null");
         }
@@ -22,11 +23,19 @@ public class Couple {
         }
         this.majorName = majorName.trim();
         this.spyName = spyName.trim();
+        this.isUsed = isUsed;
     }
 
+    public Couple(Long id, String majorName, String spyName, boolean isUsed) {
+    	this(majorName, spyName, isUsed);
+    	this.id = id;
+    }
     public Couple(Long id, String majorName, String spyName) {
-        this(majorName, spyName);
+        this(majorName, spyName, false);
         this.id = id;
+    }
+    public Couple(String majorName, String spyName) {
+    	this(majorName, spyName, false);
     }
 
     public Long getId() {
@@ -38,6 +47,9 @@ public class Couple {
     }
     public String getSpyName() {
     	return spyName;
+    }
+    public boolean isUsed() {
+    	return isUsed;
     }
 
     public void delete(Context context) {

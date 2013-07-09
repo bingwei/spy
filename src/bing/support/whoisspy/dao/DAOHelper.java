@@ -12,7 +12,10 @@ public abstract class DAOHelper extends SQLiteOpenHelper implements DatabaseCons
     protected static final String COUPLES_TABLE_NAME = "couples";
     protected static final String MAJOR_NAME = "major_name";
     protected static final String SPY_NAME = "spy_name";
-    protected static final String[] TEAMS_ALL_COLUMS = { _ID, MAJOR_NAME,  SPY_NAME};
+    protected static final String IS_USED = "is_used";
+    protected static final boolean NOT_USED = false;
+    protected static final boolean USED = true;
+    protected static final String[] TEAMS_ALL_COLUMS = { _ID, MAJOR_NAME,  SPY_NAME, IS_USED};
 
 //    protected static final String MEETINGS_TABLE_NAME = "meetings";
 //    protected static final String MEETINGS_TEAM_NAME = "team_name";
@@ -34,7 +37,8 @@ public abstract class DAOHelper extends SQLiteOpenHelper implements DatabaseCons
         db.execSQL("CREATE TABLE " + COUPLES_TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MAJOR_NAME + " TEXT NOT NULL," +
-                SPY_NAME + " TEXT NOT NULL" +
+                SPY_NAME + " TEXT NOT NULL," +
+                IS_USED + " INTEGER NOT NULL DEFAULT 0" +
                 ");");
 
 //        db.execSQL("CREATE TABLE " + MEETINGS_TABLE_NAME + " (" +

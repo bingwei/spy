@@ -103,6 +103,40 @@ public class CoupleDAO extends DAOHelper {
         Logger.d("Found " + names.size());
         return names;
     }
+    
+    public List<Couple> getAllUsed() {
+    	return getAllWithCertainStatus(USED);
+    }
+    public List<Couple> getAllUnused() {
+    	return getAllWithCertainStatus(NOT_USED);
+    }
+    
+    public List<Couple> getAllWithCertainStatus(boolean status) {
+    	List<Couple> couples = new ArrayList<Couple>();
+    	Cursor cursor = null;
+    	Couple couple = null;
+    	long id = 0;
+    	String majorName = null;
+    	String spyName = null;
+    	
+    	try {
+    		SQLiteDatabase db = getReadableDatabase();
+    		cursor = db.query(COUPLES_TABLE_NAME, TEAMS_ALL_COLUMS, IS_USED + " = ?", new String[]{status == true? "1": "0"}, null, null, null);
+    		while (cursor.moveToNext()) {
+            	id = cursor.getLong(0);
+        		majorName = cursor.getString(1);
+        		spyName = cursor.getString(2);
+        		//Set all couple with unused. It's easy to get them updated or deleted 
+        		couple = new Couple(id, majorName, spyName, false);
+        		couples.add(couple);
+    		}
+    	} finally {
+    		closeCursor(cursor);
+    	}
+    	
+    	Logger.d("Found " + couples.size());
+    	return couples;
+    }
 
     public void deleteAll() {
         Logger.d("Deleting all teams");
@@ -147,6 +181,7 @@ public class CoupleDAO extends DAOHelper {
         ContentValues values = new ContentValues();
         values.put(MAJOR_NAME, couple.getMajorName());
         values.put(SPY_NAME, couple.getSpyName());
+        values.put(IS_USED, couple.isUsed()? 1: 0);
         long id = db.insertOrThrow(COUPLES_TABLE_NAME, null, values);
         return new Couple(id, couple.getMajorName(), couple.getSpyName());
     }
@@ -156,7 +191,8 @@ public class CoupleDAO extends DAOHelper {
         ContentValues values = new ContentValues();
         values.put(MAJOR_NAME, couple.getMajorName());
         values.put(SPY_NAME, couple.getSpyName());
+        values.put(IS_USED, couple.isUsed()? 1: 0);
         long id = db.update(COUPLES_TABLE_NAME, values, _ID + " = ?", new String[]{couple.getId().toString()});
-        return new Couple(id, couple.getMajorName(), couple.getSpyName());
+        return new Couple(id, couple.getMajorName(), couple.getSpyName(), couple.isUsed());
     }
 }
