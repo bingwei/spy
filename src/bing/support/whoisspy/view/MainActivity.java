@@ -1,4 +1,4 @@
-package bing.support.whoisspy;
+package bing.support.whoisspy.view;
 
 import java.util.List;
 
@@ -18,7 +18,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-import bing.support.whoisspy.model.Couple;
+import bing.support.whoisspy.R;
+import bing.support.whoisspy.model.Character;
 
 public class MainActivity extends Activity implements OnItemSelectedListener,
 		OnClickListener, OnSeekBarChangeListener{
@@ -32,7 +33,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 	private Button show = null;
 	private Button delete = null;
 	
-	private Couple couple = null;
+	private Character couple = null;
 	
 	private Spinner sp_spy_num = null;
 	private Spinner sp_mf_num = null;
@@ -132,23 +133,23 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 		String majorName = major_name.getText().toString();
 		String spyName = spy_name.getText().toString();
 		String id = couple_id.getText().toString();
-		couple = new Couple(majorName, spyName);
+		couple = new Character(majorName, spyName);
 		StringBuffer content = new StringBuffer();
     	switch(arg0.getId()){
     	case R.id.add_couple:
-    		Couple.create(majorName, spyName, this);
+    		Character.create(majorName, spyName, this);
     		content.append("add");
     		break;
     	case R.id.show_couple:
     		if(couple_id.getText().length() != 0){
-    			couple = Couple.findById(Long.valueOf(id), this);
+    			couple = Character.findById(Long.valueOf(id), this);
     			if(couple != null){
     				content.append(String.format("Found '%s: %s'", couple.getMajorName(), couple.getSpyName()));
     			}else{
     				content.append("Not found");
     			}
     		}else{
-    			List<String> majorNames = Couple.getAllMajorNames(this);
+    			List<String> majorNames = Character.getAllMajorNames(this);
     			for(String c: majorNames){
     				content.append(c + "\n");
     			}
@@ -156,11 +157,11 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
     		break;
     	case R.id.remove_couple:
     		if(couple_id.getText().length() != 0){
-	    		couple = Couple.findById(Long.valueOf(id), this);
+	    		couple = Character.findById(Long.valueOf(id), this);
 	    		couple.delete(this);
 	    		content.append("removed");
     		}else{
-    			Couple.deleteAll(this);
+    			Character.deleteAll(this);
     			content.append("Remove all");
     		}
     		break;

@@ -24,7 +24,7 @@
     <TextView 
           android:id="@+id/player_name" 
           android:layout_height="wrap_content" 
-          android:layout_width="85dp" 
+          android:layout_width="match_parent" 
           android:text="@string/app_name" 
           android:layout_below="@+id/portrait" 
           android:gravity="center"

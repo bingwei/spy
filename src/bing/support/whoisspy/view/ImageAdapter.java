@@ -1,4 +1,7 @@
-package bing.support.whoisspy;
+package bing.support.whoisspy.view;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.view.View;
@@ -7,18 +10,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import bing.support.whoisspy.R;
 
 public class ImageAdapter extends BaseAdapter {
+
 	private Context mContext;
-
-	public ImageAdapter(Context c) {
+	private List<PlayerCardData> pcDatas = new ArrayList<PlayerCardData>();
+	
+	public ImageAdapter(Context c, List<PlayerCardData> pcDatas) {
 		mContext = c;
+		this.pcDatas = pcDatas;
 	}
 
-	@Override
-	public int getCount() {
-		return mThumbIds.length;
-	}
+
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup arg2) {
@@ -28,28 +32,27 @@ public class ImageAdapter extends BaseAdapter {
 		ImageView image = (ImageView) playerCard.findViewById(R.id.portrait);
 		TextView text = (TextView) playerCard.findViewById(R.id.player_name);
 
-		image.setImageResource(mThumbIds[position]);
-		text.setText(mTextValues[position]);
+		image.setImageResource(pcDatas.get(position).getImage());
+		text.setText(pcDatas.get(position).getName());
 
 		return playerCard;
 	}
-
-	// references to our images
-	private Integer[] mThumbIds = { 
-			R.drawable.ic_launcher, 
-			R.drawable.ic_launcher, 
-			R.drawable.ic_launcher};
-
-	private String[] mTextValues = {
-			"Button", 
-			"Button", 
-			"TextView" };
-
+	
+	@Override
+	public int getCount() {
+		return pcDatas.size();
+	}
+	
+	
 	@Override
 	public Object getItem(int position) {
-		return mThumbIds[position];
+		return pcDatas.get(position);
 	}
-
+	
+	public void setItem(int position, PlayerCardData p) {
+		pcDatas.set(position, p);
+	}
+	
 	@Override
 	public long getItemId(int position) {
 		return position;

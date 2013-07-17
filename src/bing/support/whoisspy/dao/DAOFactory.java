@@ -7,8 +7,8 @@ public class DAOFactory {
 
     private Context globalContext = null;
     private boolean cacheDAOInstances = false;
-    private CoupleDAO cachedCoupleDAO = null;
-//    private MeetingDAO cachedMeetingDAO = null;
+    private CharacterDAO cachedCharacterDAO = null;
+    private PlayerDAO cachedPlayerDAO = null;
 
     public static DAOFactory getInstance() {
         if (instance == null) {
@@ -20,27 +20,27 @@ public class DAOFactory {
     private DAOFactory() {
     }
 
-    public CoupleDAO getCoupleDAO(Context context) {
+    public CharacterDAO getCharacterDAO(Context context) {
         if (cacheDAOInstances) {
-            if (cachedCoupleDAO == null) {
-            	cachedCoupleDAO = new CoupleDAO(getProperDAOContext(context));
+            if (cachedCharacterDAO == null) {
+            	cachedCharacterDAO = new CharacterDAO(getProperDAOContext(context));
             }
-            return cachedCoupleDAO;
+            return cachedCharacterDAO;
         } else {
-            return new CoupleDAO(getProperDAOContext(context));
+            return new CharacterDAO(getProperDAOContext(context));
         }
     }
-//
-//    public MeetingDAO getMeetingDAO(Context context) {
-//        if (cacheDAOInstances) {
-//            if (cachedMeetingDAO == null) {
-//                cachedMeetingDAO = new MeetingDAO(getProperDAOContext(context));
-//            }
-//            return cachedMeetingDAO;
-//        } else {
-//            return new MeetingDAO(getProperDAOContext(context));
-//        }
-//    }
+
+    public PlayerDAO getPlayerDAO(Context context) {
+        if (cacheDAOInstances) {
+            if (cachedPlayerDAO == null) {
+            	cachedPlayerDAO = new PlayerDAO(getProperDAOContext(context));
+            }
+            return cachedPlayerDAO;
+        } else {
+            return new PlayerDAO(getProperDAOContext(context));
+        }
+    }
 
     public void setGlobalContext(Context context) {
         globalContext = context;

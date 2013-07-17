@@ -8,6 +8,12 @@
     <string name="all_players">All players</string>
     <string name="player_name">Player\'s name</string>
     <string name="default_all_players_num">6</string>
+    <string name="pick_character_title">Your character: </string>
+    <string name="pick_character_msg">Please deliver the phone to next player: </string>
+    <string name="gaming_title">Confirm to kill this player!</string>
+    <string name="gaming_msg">Are you sure you want to kill him?</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
     <string name="i0">== 0 ==</string>
     <string name="i1">== 1 ==</string>
     <string name="i2">== 2 ==</string>
