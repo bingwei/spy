@@ -34,6 +34,7 @@ public class ImageAdapter extends BaseAdapter {
 
 		image.setImageResource(pcDatas.get(position).getFrontendImage());
 		image.setBackgroundResource(pcDatas.get(position).getBackgroundImage());
+		image.setAlpha(150);
 		text.setText(pcDatas.get(position).getName());
 
 		return playerCard;

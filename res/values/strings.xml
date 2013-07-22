@@ -16,6 +16,11 @@
     <string name="alert_dialog_game_start">Game Starts!</string>
     <string name="deliver_to_first_player">Please deliver the phone to:</string>
     <string name="alert_dialog_cancel">Cancel</string>
+    <string name="play_another_around">Play Another Around</string>
+    <string name="return_to_settings">Return Settinss</string>
+    <string name="major">Civilian</string>
+    <string name="spy">Spy</string>
+    <string name="multi_face">Multi-face</string>
     <string name="i0">== 0 ==</string>
     <string name="i1">== 1 ==</string>
     <string name="i2">== 2 ==</string>
