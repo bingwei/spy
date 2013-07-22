@@ -8,11 +8,10 @@
 	>
 	<ImageView
 	      android:id="@+id/portrait" 
-          android:src="@drawable/ic_launcher" 
-          android:layout_width="85dp" 
-          android:layout_height="85dp" 
+          android:layout_height="match_parent" 
+          android:layout_width="match_parent" 
           android:contentDescription="@string/player_name"
-          android:background="@drawable/border"
+          android:background="@android:color/transparent" 
           />
 <!-- 	<TextView
 		android:layout_width="match_parent"
@@ -31,7 +30,6 @@
           android:singleLine="true"
           android:ellipsize="marquee"
           android:marqueeRepeatLimit="marquee_forever"
-          android:background="@drawable/border"
           />
   
 </RelativeLayout>

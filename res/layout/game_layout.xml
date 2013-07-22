@@ -9,14 +9,14 @@
 	<!-- android:orientation="vertical" -->
     
 	<GridView 
-	    android:id="@+id/game_card"
+	    android:id="@+id/game"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 	    android:padding="10dp"
 	    android:verticalSpacing="10dp"
 	    
 	    android:horizontalSpacing="2dp"
-	    android:numColumns="auto_fit"
+	    android:numColumns="3"
 	    android:columnWidth="80dp"
 	    android:stretchMode="columnWidth"
 	    

@@ -13,6 +13,8 @@
     <string name="gaming_title">Confirm to kill this player!</string>
     <string name="gaming_msg">Are you sure you want to kill him?</string>
     <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_game_start">Game Starts!</string>
+    <string name="deliver_to_first_player">Please deliver the phone to:</string>
     <string name="alert_dialog_cancel">Cancel</string>
     <string name="i0">== 0 ==</string>
     <string name="i1">== 1 ==</string>

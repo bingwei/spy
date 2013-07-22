@@ -15,9 +15,9 @@ import bing.support.whoisspy.R;
 public class ImageAdapter extends BaseAdapter {
 
 	private Context mContext;
-	private List<PlayerCardData> pcDatas = new ArrayList<PlayerCardData>();
+	private List<ViewHolder> pcDatas = new ArrayList<ViewHolder>();
 	
-	public ImageAdapter(Context c, List<PlayerCardData> pcDatas) {
+	public ImageAdapter(Context c, List<ViewHolder> pcDatas) {
 		mContext = c;
 		this.pcDatas = pcDatas;
 	}
@@ -32,7 +32,8 @@ public class ImageAdapter extends BaseAdapter {
 		ImageView image = (ImageView) playerCard.findViewById(R.id.portrait);
 		TextView text = (TextView) playerCard.findViewById(R.id.player_name);
 
-		image.setImageResource(pcDatas.get(position).getImage());
+		image.setImageResource(pcDatas.get(position).getFrontendImage());
+		image.setBackgroundResource(pcDatas.get(position).getBackgroundImage());
 		text.setText(pcDatas.get(position).getName());
 
 		return playerCard;
@@ -49,7 +50,7 @@ public class ImageAdapter extends BaseAdapter {
 		return pcDatas.get(position);
 	}
 	
-	public void setItem(int position, PlayerCardData p) {
+	public void setItem(int position, ViewHolder p) {
 		pcDatas.set(position, p);
 	}
 	

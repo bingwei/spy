@@ -19,16 +19,16 @@ import bing.support.whoisspy.utils.Logger;
 
 public class GameActivity extends Activity implements OnItemClickListener{
 	
-	private Map<String, String> ids = new HashMap<String, String>();
+	private Map<String, String> ids = new HashMap<String, String>();//玩家-对应列表
 	private List<Integer> clickedItems = new ArrayList<Integer>();
-	private GridView gameCard = null;
+	private GridView gameView = null;
 	private ImageAdapter imageAdapter = null;
-	private List<PlayerCardData> pcds = null;
-	private List<String> players = null;
-	private List<String> characters = null;
+	private List<ViewHolder> pcds = null;
+	private List<String> players = null;//玩家
+	private List<String> characters = null;//角色
 	private enum STATUS {PICK_CHARACTER, GAMING, GAME_OVER;}
 	private STATUS status = null;
-	private int AMOUNT = 6;
+	private int AMOUNT = 9;
 	private int spyPosition;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,22 +55,25 @@ public class GameActivity extends Activity implements OnItemClickListener{
 		}
 		//==================================
 		
-		pcds = new ArrayList<PlayerCardData>();
+		pcds = new ArrayList<ViewHolder>();
 		for(int i = 0; i < AMOUNT; i++){
-			PlayerCardData p = new PlayerCardData(R.drawable.basic, 
-					"Button" + i); 
+			ViewHolder p = new ViewHolder(
+					String.format("Button %d", (i+1)),
+					R.drawable.basic,
+					R.drawable.basic
+					); 
 			pcds.add(p);
 		}
 		
 		imageAdapter = new ImageAdapter(this, pcds);
-		gameCard = (GridView)findViewById(R.id.game_card); 
-		gameCard.setAdapter(imageAdapter);
-		gameCard.setOnItemClickListener(this);
+		gameView = (GridView)findViewById(R.id.game); 
+		gameView.setAdapter(imageAdapter);
+		gameView.setOnItemClickListener(this);
 		
 		new AlertDialog.Builder(GameActivity.this)
         .setIconAttribute(android.R.attr.alertDialogIcon)
-        .setTitle(getString(R.string.pick_character_title) + characters.get(0))
-        .setMessage(getString(R.string.pick_character_msg) + players.get(0))
+        .setTitle(R.string.alert_dialog_game_start)
+        .setMessage(getString(R.string.deliver_to_first_player) + " " + players.get(0))
         .setPositiveButton(getString(R.string.alert_dialog_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
@@ -96,7 +99,8 @@ public class GameActivity extends Activity implements OnItemClickListener{
 			}
 			ids.put(players.get(clickedItems.size()-1), characters.get(position));
 			// Need to set user's image to replace R.drawable.logo
-			pcds.set(position, new PlayerCardData(R.drawable.logo, players.get(clickedItems.size()-1)));
+			ViewHolder viewHolder = new ViewHolder(players.get(clickedItems.size()-1), R.drawable.logo, R.drawable.basic);
+			pcds.set(position, viewHolder);
 			imageAdapter.notifyDataSetChanged();
 			
 			String message = null;
