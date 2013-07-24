@@ -4,3 +4,4 @@ gen/
 .classpath
 *.swp
 .project
+*.png

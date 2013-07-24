@@ -3,6 +3,7 @@ package bing.support.whoisspy.view;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import bing.support.whoisspy.R;
+import bing.support.whoisspy.constant.Key;
 import bing.support.whoisspy.utils.Logger;
 
 
@@ -46,22 +48,24 @@ public class GameActivity extends Activity implements OnItemClickListener{
 	private Set<Integer> mfPositions = new HashSet<Integer>();//Used to store multi_face random index
 	private STATUS status = null;
 	private WINNER winner = null;
-	private int AMOUNT_ALL = 9;//总人数
-	private int AMOUNT_SPY= 2;
+	private int AMOUNT_ALL = 20;//总人数
+	private int AMOUNT_SPY= 4;
 	private int AMOUNT_MULTIFACE= 1;
-	private String major = null;//平民角色
-	private String spy = null;//间谍角色
-	private String multiFace = "";//白板角色
+	private String MAJOR = null;//平民角色
+	private String SPY = null;//间谍角色
+	private String MULTI_FACE = "";//白板角色
+	private Bundle bundle = null;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.game_layout);
         
         status = STATUS.PICK_CHARACTER;
-        initLayout();
+        bundle = getIntent().getExtras();
+        initLayout(bundle);
     }
     
-	private void initLayout() {
+	private void initLayout(Bundle mBundle) {
 		//reset status and clear data
 		status = STATUS.PICK_CHARACTER;
 		ids.clear();
@@ -69,11 +73,22 @@ public class GameActivity extends Activity implements OnItemClickListener{
 		spyPositions.clear();
 		mfPositions.clear();
 		//==========test data=============
-		major = "伯爵";
-		spy = "男爵";
+		if(null == mBundle.getString(Key.MAJOR_NAME)
+				|| "".equals(mBundle.getString(Key.MAJOR_NAME))){
+			MAJOR = "伯爵";
+			SPY = "男爵";
+		}else{
+			MAJOR = mBundle.getString(Key.MAJOR_NAME);
+			SPY = mBundle.getString(Key.SPY_NAME);
+		}
+		
+		AMOUNT_ALL = bundle.getInt(Key.AMOUNT);
+		AMOUNT_SPY = bundle.getInt(Key.SPY_AMOUNT);
+		AMOUNT_MULTIFACE = bundle.getInt(Key.MULTIFACE_AMOUNT);
+		
 		characters = new ArrayList<String>();
 		for(int i= 0; i < AMOUNT_ALL; i++){
-			characters.add(major);
+			characters.add(MAJOR);
 		}
 		while(spyPositions.size() < AMOUNT_SPY){//set用来过滤重复的随机值
 			spyPositions.add(new Random().nextInt(AMOUNT_ALL));
@@ -84,13 +99,17 @@ public class GameActivity extends Activity implements OnItemClickListener{
 				mfPositions.add(r);
 			}
 		}
-		for(int i: spyPositions){
-			Logger.d(String.format("Pick %d as spy", i+1));
-			characters.set(i, spy);
+		Iterator<Integer> iter = spyPositions.iterator();
+		while(iter.hasNext()){
+			int index = iter.next();
+			Logger.d(String.format("Pick %d as spy", index+1));
+			characters.set(index, SPY);
 		}
-		for(int i: mfPositions){
-			Logger.d(String.format("Pick %d as multi-face", i+1));
-			characters.set(i, multiFace);
+		iter = mfPositions.iterator();
+		while(iter.hasNext()){
+			int index = iter.next();
+			Logger.d(String.format("Pick %d as multi-face", index+1));
+			characters.set(index, MULTI_FACE);
 		}
 		
 		players = new ArrayList<String>();
@@ -169,7 +188,7 @@ public class GameActivity extends Activity implements OnItemClickListener{
 			if(!ids.containsKey(position)) break;//skip clicked card
 			new AlertDialog.Builder(GameActivity.this)
             .setIconAttribute(android.R.attr.alertDialogIcon)
-            .setTitle(getString(R.string.gaming_title) + characters.get(position))
+            .setTitle(getString(R.string.gaming_title))
             .setMessage(getString(R.string.gaming_msg))
             .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -222,20 +241,22 @@ public class GameActivity extends Activity implements OnItemClickListener{
 		ids.remove(position);//remove from tracking list
 		if(status == STATUS.GAME_OVER){
 			ViewHolder viewHolder = null;
-			for(int k: ids.keySet()){
-				if(characters.get(k) == major){
+			Iterator<Integer> it = ids.keySet().iterator();
+			while(it.hasNext()){
+				int index = it.next();
+				if(characters.get(index) == MAJOR){
 					if(winner == WINNER.MAJOR){
-						viewHolder = new ViewHolder(ids.get(k), R.drawable.logo, R.drawable.success);
+						viewHolder = new ViewHolder(ids.get(index), R.drawable.logo, R.drawable.success);
 					}else{
-						viewHolder = new ViewHolder(ids.get(k), R.drawable.logo, R.drawable.failure);
+						viewHolder = new ViewHolder(ids.get(index), R.drawable.logo, R.drawable.failure);
 					}
 				}
-				else if(characters.get(k) == spy){
-					viewHolder = new ViewHolder(ids.get(k), R.drawable.logo, R.drawable.spy);
+				else if(characters.get(index) == SPY){
+					viewHolder = new ViewHolder(ids.get(index), R.drawable.logo, R.drawable.spy);
 				}else{
-					viewHolder = new ViewHolder(ids.get(k), R.drawable.logo, R.drawable.multi_face);
+					viewHolder = new ViewHolder(ids.get(index), R.drawable.logo, R.drawable.multi_face);
 				}
-				pcds.set(k, viewHolder);
+				pcds.set(index, viewHolder);
 			}
 			imageAdapter.notifyDataSetChanged();
 			generateGameOverDialog();
@@ -248,19 +269,15 @@ public class GameActivity extends Activity implements OnItemClickListener{
 	 */
 	public void generateGameOverDialog(){
 		String w = null;
-		switch(winner){
-		case MAJOR:
+		if(winner == WINNER.MAJOR){
 			w = getString(R.string.major);
-			break;
-		case SPY:
+		}else{
 			w = getString(R.string.spy);
-			break;
-		default: break;
 		}
 		new AlertDialog.Builder(GameActivity.this)
         .setIconAttribute(android.R.attr.dialogIcon)
         .setTitle("Congratulations!")
-        .setMessage(String.format("Winner is %s !\n %s VS %s(spy)", w, major, spy))
+        .setMessage(String.format("Winner is %s !\n %s VS %s(spy)", w, MAJOR, SPY))
         .setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
             }
@@ -269,7 +286,10 @@ public class GameActivity extends Activity implements OnItemClickListener{
             }
         }).setNeutralButton(R.string.play_another_around, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-            	initLayout();
+            	Bundle b = new Bundle();
+            	b.putString(Key.MAJOR_NAME, "猴子");
+            	b.putString(Key.SPY_NAME, "猩猩");
+            	initLayout(b);
             }
         }).show();
 	}

@@ -17,6 +17,17 @@ Create "who is spy" game to know how to use:
 1.4 add label for spies
 2. Add Chinese L10n
 3. Add game online
+4. Adjust transparent and color to make image and text shown more clear
+5. Add name to image(layer) if there's no image, or set default image
+6. Add functionality of getting back to settings
+
+## LEARN
+1. Data structure of Java
+2. Code coverage tool for Android
+3. White-Box testing of Android
+4. Unit test of Android app
+5. Reduce memory consumption(MAT)
+6. anti-compile(Android security)
 
 
 ## License

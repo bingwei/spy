@@ -3,6 +3,8 @@ package bing.support.whoisspy.view;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +21,10 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import bing.support.whoisspy.R;
+import bing.support.whoisspy.constant.Key;
+import bing.support.whoisspy.constant.Limit;
 import bing.support.whoisspy.model.Character;
+import bing.support.whoisspy.utils.Logger;
 
 public class MainActivity extends Activity implements OnItemSelectedListener,
 		OnClickListener, OnSeekBarChangeListener{
@@ -35,6 +40,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 	
 	private Character couple = null;
 	
+	private Button start_game = null;
+	private EditText et_major_name = null;
+	private EditText et_spy_name = null;
 	private Spinner sp_spy_num = null;
 	private Spinner sp_mf_num = null;
 	private EditText all_player_num = null;
@@ -64,6 +72,12 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
     	show.setOnClickListener(this);
     	delete.setOnClickListener(this);
     	
+    	//----------------------------------------------
+    	
+    	et_spy_name = (EditText)findViewById(R.id.et_spy_name);
+    	et_major_name = (EditText)findViewById(R.id.et_major_name);
+    	start_game = (Button)findViewById(R.id.btn_start_game);
+    	start_game.setOnClickListener(this);
     	
     	sp_spy_num = (Spinner)findViewById(R.id.sp_spy_num);
     	sp_mf_num = (Spinner)findViewById(R.id.sp_mf_num);
@@ -86,8 +100,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 
             public void afterTextChanged(Editable s) {
             	if(!s.toString().isEmpty()){
-            		all_player_seeker.setProgress(Integer.valueOf(s.toString()));
-            		all_player_num.setSelection(s.toString().length());
+            		all_player_seeker.setProgress(Integer.valueOf(s.toString()) - Limit.MIN_AMOUNT);
+            		all_player_num.setSelection(s.toString().length());//输入过程中获取长度
             	}
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -165,6 +179,25 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
     			content.append("Remove all");
     		}
     		break;
+    	//======================================
+    	case R.id.btn_start_game:
+    		Intent intent = new Intent(this, GameActivity.class);
+    		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		Logger.d("major name: " + et_major_name.getText().toString());
+    		Logger.d("spy name: " + et_spy_name.getText().toString());
+    		Logger.d("amount: " + Integer.valueOf(all_player_num.getText().toString()));
+    		Logger.d("spy number: " + sp_spy_num.getSelectedItemPosition()+1);
+    		Logger.d("mf number: " + sp_mf_num.getSelectedItemPosition()+1);
+    		intent.putExtra(Key.MAJOR_NAME, et_major_name.getText().toString());
+    		intent.putExtra(Key.SPY_NAME, et_spy_name.getText().toString());
+    		intent.putExtra(Key.AMOUNT, Integer.valueOf(all_player_num.getText().toString()));
+    		intent.putExtra(Key.SPY_AMOUNT, sp_spy_num.getSelectedItemPosition()+1);
+    		intent.putExtra(Key.MULTIFACE_AMOUNT, sp_mf_num.getSelectedItemPosition()+1);
+    		//TODO 判断数量是否符合规则
+    		//1. 特殊身份总数不得超过所有玩家的1/4， 不得小于等于0
+    		//2. 玩家数量不得低于4人
+    		this.startActivity(intent);
+    		break;
     	default:
     		break;
     	}
@@ -175,7 +208,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		all_player_num.setText(String.valueOf(progress));
+		all_player_num.setText(String.valueOf(progress + Limit.MIN_AMOUNT));
 	}
 
 	@Override

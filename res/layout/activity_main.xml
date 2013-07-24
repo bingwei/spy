@@ -94,9 +94,63 @@
 		    android:id="@+id/all_player_seeker" 
 		    android:layout_width="match_parent"  
         	android:layout_height="wrap_content" 
-        	android:progress="6" 
-        	android:max="20"  
+        	android:progress="2" 
+        	android:max="16"  
         />  
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:background="@drawable/border"
+    	android:layout_marginLeft="5dp"
+    	android:layout_marginRight="5dp"
+    	android:layout_marginTop="5dp"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" >
+		    <TextView
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/spy_name"
+		        android:textColor="@color/black"
+		        android:layout_weight="1" />
+		    <EditText
+		        android:id="@+id/et_spy_name"
+		        android:inputType="text"
+	            android:layout_marginLeft="40dp"
+	            android:layout_marginRight="10dp" 
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1" />
+		</LinearLayout>
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal" >
+		    <TextView
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/major_name"
+		        android:textColor="@color/black"
+		        android:layout_weight="1" />
+		    <EditText
+		        android:id="@+id/et_major_name"
+		        android:inputType="text"
+	            android:layout_marginLeft="40dp"
+	            android:layout_marginRight="10dp" 
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1" />
+		</LinearLayout>
+		<Button
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/btn_start_game"
+	        android:text="@string/start_game"
+	        android:layout_weight="1" />
 	</LinearLayout>
 	
 	<GridView

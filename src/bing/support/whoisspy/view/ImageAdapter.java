@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -32,6 +33,9 @@ public class ImageAdapter extends BaseAdapter {
 		ImageView image = (ImageView) playerCard.findViewById(R.id.portrait);
 		TextView text = (TextView) playerCard.findViewById(R.id.player_name);
 
+		if(image.getDrawable() != null){
+			((BitmapDrawable)image.getDrawable()).getBitmap().recycle();
+		}
 		image.setImageResource(pcDatas.get(position).getFrontendImage());
 		image.setBackgroundResource(pcDatas.get(position).getBackgroundImage());
 		image.setAlpha(150);

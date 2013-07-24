@@ -15,16 +15,15 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="bing.support.whoisspy.view.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/main_activity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="bing.support.whoisspy.view.GameActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/game_activity" >
         </activity>
     </application>
 
