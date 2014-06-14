@@ -36,4 +36,10 @@
     <string name="i5">== 5 ==</string>
     <string name="i6">== 6 ==</string>
     <string name="i7">== 7 ==</string>
+    
+    <!-- Warning info -->
+    <string name="warning_must_pick_one_special_character">You must choose one special character!</string>
+    <string name="warning_pick_too_many_special_characters">You choose too many special characters!</string>
+    <string name="warning_character_is_empty">You must set character</string>
+    <string name="warning_special_character_is_same_with_normal">You must set different identifier for special character</string>
 </resources>

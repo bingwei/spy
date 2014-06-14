@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import bing.support.whoisspy.R;
 import bing.support.whoisspy.constant.Key;
 import bing.support.whoisspy.constant.Limit;
@@ -97,7 +98,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
     	sp_mf_num.setOnItemSelectedListener(this);
     	all_player_seeker.setOnSeekBarChangeListener(this);
     	all_player_num.addTextChangedListener(new TextWatcher() {
-
             public void afterTextChanged(Editable s) {
             	if(!s.toString().isEmpty()){
             		all_player_seeker.setProgress(Integer.valueOf(s.toString()) - Limit.MIN_AMOUNT);
@@ -181,22 +181,40 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
     		break;
     	//======================================
     	case R.id.btn_start_game:
+    		String sMajorName = et_major_name.getText().toString();
+    		String sSpyName = et_spy_name.getText().toString();
+    		int sAmount = Integer.valueOf(all_player_num.getText().toString());
+    		int sSpyNum = sp_spy_num.getSelectedItemPosition();
+    		int sMfNum = sp_mf_num.getSelectedItemPosition();
     		Intent intent = new Intent(this, GameActivity.class);
     		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    		Logger.d("major name: " + et_major_name.getText().toString());
-    		Logger.d("spy name: " + et_spy_name.getText().toString());
-    		Logger.d("amount: " + Integer.valueOf(all_player_num.getText().toString()));
-    		Logger.d("spy number: " + sp_spy_num.getSelectedItemPosition()+1);
-    		Logger.d("mf number: " + sp_mf_num.getSelectedItemPosition()+1);
-    		intent.putExtra(Key.MAJOR_NAME, et_major_name.getText().toString());
-    		intent.putExtra(Key.SPY_NAME, et_spy_name.getText().toString());
-    		intent.putExtra(Key.AMOUNT, Integer.valueOf(all_player_num.getText().toString()));
-    		intent.putExtra(Key.SPY_AMOUNT, sp_spy_num.getSelectedItemPosition()+1);
-    		intent.putExtra(Key.MULTIFACE_AMOUNT, sp_mf_num.getSelectedItemPosition()+1);
+    		Logger.d("major name: " + sMajorName);
+    		Logger.d("spy name: " + sSpyName);
+    		Logger.d("amount: " + sAmount);
+    		Logger.d("amount/4.0: " + Math.ceil(sAmount/4.0));
+    		Logger.d("spy number: " + sSpyNum);
+    		Logger.d("mf number: " + sMfNum);
+    		intent.putExtra(Key.MAJOR_NAME, sMajorName);
+    		intent.putExtra(Key.SPY_NAME, sSpyName);
+    		intent.putExtra(Key.AMOUNT, sAmount);
+    		intent.putExtra(Key.SPY_AMOUNT, sSpyNum);
+    		intent.putExtra(Key.MULTIFACE_AMOUNT, sMfNum);
     		//TODO 判断数量是否符合规则
-    		//1. 特殊身份总数不得超过所有玩家的1/4， 不得小于等于0
-    		//2. 玩家数量不得低于4人
-    		this.startActivity(intent);
+    		String warningInfo = null;
+    		if(sSpyNum == 0 && sMfNum == 0){
+    			warningInfo = getString(R.string.warning_must_pick_one_special_character);
+    		}else if(sSpyNum + sMfNum > Math.ceil(sAmount/4.0)) {
+    			warningInfo = getString(R.string.warning_pick_too_many_special_characters);
+    		}else if(sMajorName.length()==0 || sSpyName.length()==0){
+    			warningInfo = getString(R.string.warning_character_is_empty);
+    		}else if(sMajorName.equals(sSpyName)){
+    			warningInfo = getString(R.string.warning_special_character_is_same_with_normal);
+    		}
+    		if(warningInfo == null){
+    			this.startActivity(intent);
+    		}else{
+    			Toast.makeText(getApplicationContext(), warningInfo, Toast.LENGTH_SHORT).show();
+    		}
     		break;
     	default:
     		break;

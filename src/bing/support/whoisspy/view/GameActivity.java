@@ -229,8 +229,9 @@ public class GameActivity extends Activity implements OnItemClickListener{
 			imageAdapter.notifyDataSetChanged();
     	}
     	else{
-    		if(ids.size()-spyPositions.size()-mfPositions.size() < 2 
-    				|| ids.size()-spyPositions.size()-mfPositions.size() < AMOUNT_ALL/4){
+    		ids.remove(position);//remove from tracking list
+    		int leftGoodPeople = ids.size() -spyPositions.size()-mfPositions.size();
+    		if(leftGoodPeople <= 1 || leftGoodPeople < Math.floor(AMOUNT_ALL/4.0)){
     			status = STATUS.GAME_OVER;
     			winner = WINNER.SPY;
     		}
@@ -238,7 +239,6 @@ public class GameActivity extends Activity implements OnItemClickListener{
 			pcds.set(position, viewHolder);
 			imageAdapter.notifyDataSetChanged();
     	}
-		ids.remove(position);//remove from tracking list
 		if(status == STATUS.GAME_OVER){
 			ViewHolder viewHolder = null;
 			Iterator<Integer> it = ids.keySet().iterator();
